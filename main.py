@@ -1,7 +1,8 @@
+from re import search
 import sys
 from threading import Thread
 from marsRecognition import MarsRecognition
-from marsmodules.marsWebUtil import playOnYoutube
+from marsmodules.marsWebUtil import playOnYoutube, searchInfo
 from marsmodules.word_dictionaries import dateTimeDictionary, closeAppDictionary
 from marsmodules.marsDateTimeUtil import *
 
@@ -42,6 +43,22 @@ while running:
             thread1 = Thread(target=playOnYoutube, args=(output,))
             thread1.start()
             continue
+
+        if 'ano yung' in output:
+            lookfor = output.replace('ano yung ', '')
+            result = searchInfo(lookfor)
+            mr.speak(result)
+            continue
+
+        if 'what is' in output:
+            lookfor = output.replace('what is ', '')
+            result = searchInfo(lookfor)
+            mr.speak(result)
+            continue
+        
+        if output in closeAppDictionary: 
+            mr.speak('ByeBye!')
+            sys.exit('Closing the application')
 
     if output in closeAppDictionary: 
         mr.speak('ByeBye!')

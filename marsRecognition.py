@@ -10,7 +10,7 @@ class MarsRecognition:
     def __init__(self):
         voices = self.__engine.getProperty('voices')
         self.__engine.setProperty('voice', voices[1].id)
-        self.__engine.setProperty('rate', 145)
+        self.__engine.setProperty('rate', 130)
         self.__engine.setProperty('volume', 1.0)        
 
 
