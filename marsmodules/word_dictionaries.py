@@ -4,7 +4,11 @@ dateTimeDictionary = {
     'today': ['anong araw na', 'anong araw ngayon', 'anong araw na ngayon', 'what day is it']
 }
 
-
+newsRequest = {
+    'local': ['anong balita', 'anong news ngayon'],
+    'global': ['anong balita sa ibang bansa', 'anong world news', 'balita sa ibang bansa', 'anong update sa ibang bansa'],
+    'showbiz': ['anong chismiz', 'anong chismis', 'anong latest']
+}
 
 chikaTime = {
 
