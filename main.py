@@ -1,9 +1,11 @@
+from operator import index
 import sys
 from threading import Thread
 import marsRecognition as mr
 from marsmodules.marsWebUtil import getGlobalNews, getShowbizNews, playOnYoutube, searchInfo, getLocalNews
 from marsmodules.word_dictionaries import dateTimeDictionary, closeAppDictionary, newsRequest
 from marsmodules.marsDateTimeUtil import *
+from marsmodules.marsUtil import getEnDefinition
 
 
 running = True
@@ -65,7 +67,15 @@ while running:
             news = getShowbizNews()
             mr.speak(news)
             continue
-        
+
+        if 'meaning ng' in output:
+            index = output.find('meaning ng ')
+            word = output[index + len('meaning ng '):]
+            result = getEnDefinition(word)
+            mr.speak(result)
+            continue
+
+
         if output in closeAppDictionary: 
             mr.speak('ByeBye!')
             break

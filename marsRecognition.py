@@ -40,7 +40,7 @@ engine = pt.init()
 
 voices = engine.getProperty('voices')
 engine.setProperty('voice', voices[1].id)
-engine.setProperty('rate', 135)
+engine.setProperty('rate', 130)
 engine.setProperty('volume', 1.0)
 
 def voice_to_text():
