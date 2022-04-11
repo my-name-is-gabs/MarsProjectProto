@@ -1,6 +1,32 @@
+"""
+arrow module is used to manipulate date and time. To learn more about arrow module you can visit it
+here: https://arrow.readthedocs.io/en/latest/
+"""
 import arrow
 
 
+def getFullDate():
+    year = arrow.now().format('YYYY')
+    month = arrow.now().format('MMMM')
+    day = arrow.now().format('DD')
+    
+    return f'{month} {day}, {year}'
+    
+def getDay():
+    return arrow.now().format('dddd')
+    
+def getTime():
+    return arrow.now().format('HH:m A')
+
+
+if __name__ == "__main__":
+    print("This is from the marsDateTimeUtil module")
+    getFullDate()
+        
+
+"""
+Ignore this commented codes
+"""
 # mars = MarsRecognition()
 
 # def setTimer(timeValue):
@@ -47,22 +73,3 @@ import arrow
 #     except:
 #         mars.speak("something went wrong in marsDateTime module")
 #         exit()
-
-def getFullDate():
-    year = arrow.now().format('YYYY')
-    month = arrow.now().format('MMMM')
-    day = arrow.now().format('DD')
-    
-    return f'{month} {day}, {year}'
-    
-def getDay():
-    return arrow.now().format('dddd')
-    
-def getTime():
-    return arrow.now().format('HH:m A')
-
-
-if __name__ == "__main__":
-    print("This is from the marsDateTimeUtil module")
-    getFullDate()
-        
