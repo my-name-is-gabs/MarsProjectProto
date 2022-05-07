@@ -14,9 +14,15 @@ newsRequest = {
     'showbiz': ['anong chismiz', 'anong chismis', 'anong latest']
 }
 
-chikaTime = {
 
-}
 
 closeAppDictionary = ['bye-bye mars', 'paalam mars', 'exit', 'goodbye mars', 'bye-bye', 'bye mars', 'close mars', 'exit mars']
+
+
+marsWritingTips = {
+    'prompt': ['anong tips sa pagsulat', 'any tips sa pagsusulat', 'anong tip mo sa pagsulat'],
+    'response': ['Read the sssignment, relate it to the syllabus, then, list ways it reflects the objectives of the course', 
+    'Review your lecture notes to identify maini ideas that involve the writing assignment.']
+}
+
 

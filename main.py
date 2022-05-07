@@ -88,9 +88,9 @@ while running:
 
         if 'meaning ng' in output:
             # Here, I manipulate the string by finding the index of 'meaning ng ' and storing the value to index variable
-            index = output.find('meaning ng ')
+            index = output.find('anong meaning ng ')
             # Then I will use the slice operation to select the start and the end of the string
-            word = output[index + len('meaning ng '):]
+            word = output[index + len('anong meaning ng '):]
             result = getDefinition(word)
             mr.speak(result)
             continue
