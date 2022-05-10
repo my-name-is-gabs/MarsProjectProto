@@ -2,6 +2,7 @@
 This module is a collection of mars web utilities
 """
 
+from time import sleep
 import pywhatkit as kit
 import wikipedia as wiki
 import requests
@@ -12,9 +13,8 @@ This function contains the pywhatkit which has a method of playonyt that automat
 
 To learn more about the pywhatkit visit here: https://pypi.org/project/pywhatkit/
 """
-def playOnYoutube(text):
-    play = text.replace('youtube', '')
-    kit.playonyt(play)
+def playOnYoutube():
+    kit.playonyt('lofi music')
 
 
 def searchInfo(text):

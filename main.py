@@ -14,9 +14,9 @@ import sys
 from threading import Thread
 import marsRecognition as mr
 from marsmodules.marsWebUtil import getGlobalNews, getShowbizNews, playOnYoutube, searchInfo, getLocalNews
-from marsmodules.word_dictionaries import dateTimeDictionary, closeAppDictionary, newsRequest
+from marsmodules.word_dictionaries import *
 from marsmodules.marsDateTimeUtil import *
-from marsmodules.marsUtil import getDefinition
+from marsmodules.marsUtil import getDefinition, marsTipsGenerator, marsWeather, translateWord
 
 
 running = True
@@ -52,12 +52,15 @@ while running:
             continue
 
         # If 'youtube' is present from the output, then the following functions will execute
-        if 'youtube' in output:
-            # Threading is used here because the function playOnYoutube() which run from the module pywhatkit
-            thread1 = Thread(target=playOnYoutube, args=(output,))
-            thread1.start()
-            continue
+        # if 'play some music' in output:
+        #     # Threading is used here because the function playOnYoutube() which run from the module pywhatkit
+        #     # thread1 = Thread(target=playOnYoutube, args=(output,)) this is old where it accepts an argument
 
+        #     thread1 = Thread(target=playOnYoutube)
+        #     thread1.start()
+        #     continue
+
+        # For asking question through wikipedia
         if 'ano yung' in output:
             lookfor = output.replace('ano yung ', '')
             result = searchInfo(lookfor)
@@ -86,6 +89,7 @@ while running:
             mr.speak(news)
             continue
 
+        # For getting the definition of a vocabolary words through Merriam webster dictionary website
         if 'meaning ng' in output:
             # Here, I manipulate the string by finding the index of 'meaning ng ' and storing the value to index variable
             index = output.find('anong meaning ng ')
@@ -94,8 +98,40 @@ while running:
             result = getDefinition(word)
             mr.speak(result)
             continue
+        
+        # For getting tips 
+        if output in writingTips['prompt']:
+            tip = marsTipsGenerator(writingTips['response'])
+            mr.speak(tip)
+            continue
 
+        if output in focusSkillTips['prompt']:
+            tip = marsTipsGenerator(focusSkillTips['response'])
+            mr.speak(tip)
+            continue
 
+        # For generating weather forecast
+        if output in weatherPrompt:
+            weather = marsWeather()
+            mr.speak(weather)
+            continue
+
+        # for translating a word from Filipino to English
+        if 'anong english ng ' in output:
+            index = output.find('anong english ng ')
+            word = output[index + len('anong english ng '):]
+            result = translateWord(word, 'tl', 'en')
+            mr.speak(result)
+            continue
+        # for translating a word from English to Filipino
+        if 'anong tagalog ng ' in output:
+            index = output.find('anong tagalog ng ')
+            word = output[index + len('anong tagalog ng '):]
+            result = translateWord(word, 'en', 'tl')
+            mr.speak(result)
+            continue
+
+        # For closing the application
         if output in closeAppDictionary: 
             mr.speak('ByeBye!')
             break
