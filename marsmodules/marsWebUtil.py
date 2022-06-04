@@ -6,6 +6,7 @@ from time import sleep
 import pywhatkit as kit
 import wikipedia as wiki
 import requests
+from requests_html import HTMLSession
 from bs4 import BeautifulSoup
 
 """
@@ -70,19 +71,33 @@ def getGlobalNews():
     return f"Headline: {headline}; {article}"
 
 
+# def getShowbizNews():
+#     showbiz_html = requests.get('https://www.cnnphilippines.com/entertainment/').text
+#     soup = BeautifulSoup(showbiz_html, 'html.parser')
+
+#     news_article = soup.find('div', class_="col-sm-4")
+
+#     headline = news_article.find('a').text
+
+#     article_div = news_article.find('div', class_="slider-text")
+
+#     article = article_div.find('p').text
+
+#     return f"{headline}; {article}"
+
 def getShowbizNews():
-    showbiz_html = requests.get('https://www.cnnphilippines.com/entertainment/').text
-    soup = BeautifulSoup(showbiz_html, 'html.parser')
+    pep_session = HTMLSession()
+    # result = session.get('https://www.pep.ph/news/local?ref=nav_v2')
+    session_response = pep_session.get('https://mb.com.ph/category/entertainment/celebrities/')
+    
+    title = session_response.html.find('h4.title', first=True).text
 
-    news_article = soup.find('div', class_="col-sm-4")
+    body = session_response.html.find('div.desc', first=True).text
 
-    headline = news_article.find('a').text
 
-    article_div = news_article.find('div', class_="slider-text")
+    return f'{title}. {body}'
 
-    article = article_div.find('p').text
 
-    return f"{headline}; {article}"
     
 
 """
@@ -91,4 +106,5 @@ inside the if statement, the code will only be executed when the module itself i
 Otherwise will not execute
 """
 if __name__ == "__main__":
-    getShowbizNews()
+    print("Hello world")
+    print(getShobizNews())

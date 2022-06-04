@@ -1,185 +1,58 @@
-"""
-This is the Mars smart assitant application created by Group 7
-
-Members:
-Roxas, Trishia
-Solomon, Danica
-Silaga, Rochelle
-Sombrito, Antonio
-Sombrito, Maynard
-Villar, Gabriel
-
-"""
-import sys
-from threading import Thread
-import marsRecognition as mr
-from marsmodules.marsWebUtil import getGlobalNews, getShowbizNews, playOnYoutube, searchInfo, getLocalNews
-from marsmodules.word_dictionaries import *
-from marsmodules.marsDateTimeUtil import *
-from marsmodules.marsUtil import getDefinition, marsTipsGenerator, marsWeather, translateWord
+from Mars import run_thread, view_log_wd
 from tkinter import *
 from tkinter import messagebox
+from PIL import ImageTk, Image
+import webbrowser
+
+root = Tk()
+root.title("M.A.R.S Assistant Application")
+root.iconbitmap('./extras/icon.ico')
+root.eval("tk::PlaceWindow . center")
+root.geometry("720x460")
+root.resizable(False, False)
+
+def start_mars():
+    run_thread(True)
+    view_log_wd()
+    run_btn.config(state="disabled")
+    refresh_btn.config(state='normal')
 
 
-running = True
+def refresh():
+    messagebox.showwarning("Warning", 'Before you start MARS assistant again you should close it by saying "exit"')
+    run_btn.config(state="normal")
+    refresh_btn.config(state="disabled")
 
-mr.speak("Hi! My name is Mars, how may I help you?")
+def open_mars_web():
+    webbrowser.open_new_tab('http://localhost:1234')
 
-window = Tk()
-window.eval('tk::PlaceWindow %s center' % window.winfo_toplevel())
-window.withdraw()
 
-try:
-    while running:
-        # This is where the converted voice to text data string will be stored
-        output = mr.voice_to_text()
-        print(f"You said: {output}")
+label_frame = Frame(root)
+label_frame.pack(fill='x')
 
-        # In order for the application to start executing the commands, the user must say the word mars or marites as a trigger
-        # The martess is spelled with double 's' because the speech recognition API returns the spelling of the name with double 's'.
-        # changing the spelling might cause a bug so it is advisable to leave it as is
-        if 'mars' in output or 'maritess' in output:
-            output = output.replace('mars ', '').strip() if 'mars' in output else output.replace('maritess ', '').strip()
-            print("This is Mars you said: ", output)
+icon = ImageTk.PhotoImage(Image.open('./extras/logo.png'))
+Label(label_frame, image=icon, height=90).grid(row=0, column=0, padx=(160, 0))
 
-            # if the output matches string stored in the dateTimeDictionary
-            if output in dateTimeDictionary['date']:
-                fulldate = getFullDate()
-                mr.speak(fulldate)
-                continue
-            
-            if  output in dateTimeDictionary['today']:
-                dayToday = getDay()
-                mr.speak(dayToday)
-                continue
+Label(label_frame, text='Welcome to M.A.R.S Application', font=("Arial", 14, "bold")).grid(row=0, column=1)
 
-            if output in dateTimeDictionary['time']:
-                timeToday = getTime()
-                mr.speak(timeToday)
-                continue
 
-            # If 'youtube' is present from the output, then the following functions will execute
-            # if 'play some music' in output:
-            #     # Threading is used here because the function playOnYoutube() which run from the module pywhatkit
-            #     # thread1 = Thread(target=playOnYoutube, args=(output,)) this is old where it accepts an argument
+frame = Frame(root, pady=20)
+frame.pack(fill="x")
 
-            #     thread1 = Thread(target=playOnYoutube)
-            #     thread1.start()
-            #     continue
+run_btn = Button(frame, text="Start", font=("Courier", 14, "bold"), pady=15, fg='white', bg='#2F85EA', command=start_mars)
+run_btn.pack(fill="x")
 
-            # For asking question through wikipedia
-            if 'ano yung' in output:
-                lookfor = output.replace('ano yung ', '')
-                result = searchInfo(lookfor)
-                mr.speak(result)
-                continue
+refresh_btn = Button(frame, text="Refresh", font=("Courier", 14, "bold"), pady=15, fg='black', bg='#C2CCD9', command=refresh)
+refresh_btn.pack(fill="x")
+refresh_btn.config(state="disabled")
 
-            if 'what is' in output:
-                lookfor = output.replace('what is ', '')
-                result = searchInfo(lookfor)
-                mr.speak(result)
-                continue
+learn_btn = Button(frame, text="Learn More", font=("Courier", 10, "bold"), pady=13, bg="#C6E0FF", command=open_mars_web).pack(fill="x")
 
-            # The newsRequest dictionary is a collection of words to be used in order to execute the following functions.
-            if output in newsRequest['local']:
-                news = getLocalNews()
-                mr.speak(news)
-                continue
+log_btn = Button(frame, text="View Log", font=("Courier", 10, "bold"), pady=13, bg="#C6E0FF", command=view_log_wd)
+log_btn.pack(fill="x")
 
-            if output in newsRequest['global']:
-                news = getGlobalNews()
-                mr.speak(news)
-                continue
 
-            if output in newsRequest['showbiz']:
-                news = getShowbizNews()
-                mr.speak(news)
-                continue
+Label(frame, text='Once M.A.R.S Assistant is running, to exit the virtual assistant just say "exit" \n and she will respond to you by saying "byebye"', font=("Arial", 12)).pack(pady=5)
 
-            # For getting the definition of a vocabolary words through Merriam webster dictionary website
-            if 'meaning ng' in output:
-                # Here, I manipulate the string by finding the index of 'meaning ng ' and storing the value to index variable
-                index = output.find('anong meaning ng ')
-                # Then I will use the slice operation to select the start and the end of the string
-                word = output[index + len('anong meaning ng '):]
-                result = getDefinition(word)
-                mr.speak(result)
-                continue
-            
-            # For getting tips 
-            if output in writingTips['prompt']:
-                tip = marsTipsGenerator(writingTips['response'])
-                mr.speak(tip)
-                continue
 
-            if output in focusSkillTips['prompt']:
-                tip = marsTipsGenerator(focusSkillTips['response'])
-                mr.speak(tip)
-                continue
-
-            if output in studyTips['prompt']:
-                tip = marsTipsGenerator(studyTips['response'])
-                mr.speak(tip)
-                continue
-
-            if output in examTips['prompt']:
-                tip = marsTipsGenerator(examTips['response'])
-                mr.speak(tip)
-                continue
-
-            if output in lectureTips['prompt']:
-                tip = marsTipsGenerator(lectureTips['response'])
-                mr.speak(tip)
-                continue
-
-            if output in readingTips['prompt']:
-                tip = marsTipsGenerator(readingTips['response'])
-                mr.speak(tip)
-                continue
-
-            # For generating weather forecast
-            if output in weatherPrompt:
-                weather = marsWeather()
-                mr.speak(weather)
-                continue
-
-            # for translating a word from Filipino to English
-            if 'ano sa english ng ' in output:
-                index = output.find('ano sa english ng ')
-                word = output[index + len('ano sa english ng '):]
-                result = translateWord(word, 'tl', 'en')
-                mr.speak(result)
-                continue
-            # for translating a word from English to Filipino
-            if 'ano sa tagalog ng ' in output:
-                index = output.find('ano sa tagalog ng ')
-                word = output[index + len('ano sa tagalog ng '):]
-                result = translateWord(word, 'en', 'tl')
-                # mr.speak(result)
-                messagebox.showinfo('Answer', result)
-                
-                continue
-
-            # For closing the application
-            if output in closeAppDictionary: 
-                mr.speak('ByeBye!')
-                break
-
-        if output in closeAppDictionary: 
-            mr.speak('ByeBye!')
-            break
-            
-        else:
-            if output == '': pass
-
-            else:
-                mr.speak('Are you saying something?')       
-                continue
-
-except: 
-    messagebox.showerror("Error", "The application suddenly stop because of an error")
-
-window.deiconify()
-window.destroy()
-window.quit()
-sys.exit('Closing the app')
+root.mainloop()

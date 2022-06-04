@@ -9,7 +9,7 @@ engine = pt.init()
 # configuring the voice and its properties
 voices = engine.getProperty('voices')
 engine.setProperty('voice', voices[1].id)
-engine.setProperty('rate', 125)
+engine.setProperty('rate', 135)
 engine.setProperty('volume', 1.0)
 
 # This is the function for listening from user's voice and converting it to a string data
