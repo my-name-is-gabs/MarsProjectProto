@@ -31,22 +31,22 @@ def run_thread(bool):
     th = Thread(target=run_mars_app, args=(bool,), daemon=True)
     th.start()
 
-def close_log_window():
-    viewLog.destroy()
+# def close_log_window():
+#     viewLog.destroy()
     
     
-def view_log_wd():
-    global viewLog, logs
-    viewLog = Toplevel()
-    viewLog.title("M.A.R.S Assistant Application")
-    viewLog.iconbitmap('./extras/icon.ico')
-    viewLog.resizable(False, False)
+# def view_log_wd():
+#     global viewLog, logs
+#     viewLog = Toplevel()
+#     viewLog.title("M.A.R.S Assistant Application")
+#     viewLog.iconbitmap('./extras/icon.ico')
+#     viewLog.resizable(False, False)
 
-    logs = Text(viewLog, bg="#f3f3f3", font=("Arial", 10, "normal"))
-    logs.pack()
+#     logs = Text(viewLog, bg="#f3f3f3", font=("Arial", 10, "normal"))
+#     logs.pack()
 
-    close_log = Button(viewLog, text="Close Log", pady=13, bg='#F04B4B', fg="white", font=("Courier", 12, "bold"), command=close_log_window)
-    close_log.pack(fill="x")
+#     close_log = Button(viewLog, text="Close Log", pady=13, bg='#F04B4B', fg="white", font=("Courier", 12, "bold"), command=close_log_window)
+#     close_log.pack(fill="x")
 
     
 def run_mars_app(running = False):
@@ -59,9 +59,9 @@ def run_mars_app(running = False):
             # This is where the converted voice to text data string will be stored
             output = mr.voice_to_text()
             print(f"You said: {output}")
-            try:
-                logs.insert(END, f"\nYou said: {output}")
-            except: pass
+            # try:
+            #     logs.insert(END, f"\nYou said: {output}")
+            # except: pass
 
             # In order for the application to start executing the commands, the user must say the word mars or marites as a trigger
             # The martess is spelled with double 's' because the speech recognition API returns the spelling of the name with double 's'.
@@ -69,9 +69,9 @@ def run_mars_app(running = False):
             if 'mars' in output or 'maritess' in output:
                 output = output.replace('mars ', '').strip() if 'mars' in output else output.replace('maritess ', '').strip()
                 print("This is Mars you said: ", output)
-                try:
-                    logs.insert(END, f"\nThis is Mars you said: {output}")
-                except: pass
+                # try:
+                #     logs.insert(END, f"\nThis is Mars you said: {output}")
+                # except: pass
                 
 
                 # if the output matches string stored in the dateTimeDictionary
@@ -214,13 +214,13 @@ def run_mars_app(running = False):
 
                 # For closing the application
                 if 'exit' in output:
-                    viewLog.destroy()
+                    # viewLog.destroy()
                     mr.speak('ByeBye!')
                     break
 
             if 'exit' in output: 
                 mr.speak('ByeBye!')
-                viewLog.destroy()
+                # viewLog.destroy()
                 break
                 
             else:

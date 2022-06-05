@@ -1,4 +1,4 @@
-from Mars import run_thread, view_log_wd
+from Mars import run_thread
 from tkinter import *
 from tkinter import messagebox
 from PIL import ImageTk, Image
@@ -8,20 +8,21 @@ root = Tk()
 root.title("M.A.R.S Assistant Application")
 root.iconbitmap('./extras/icon.ico')
 root.eval("tk::PlaceWindow . center")
-root.geometry("720x460")
+root.geometry("720x400")
 root.resizable(False, False)
 
 def start_mars():
     run_thread(True)
-    view_log_wd()
     run_btn.config(state="disabled")
     refresh_btn.config(state='normal')
 
 
 def refresh():
-    messagebox.showwarning("Warning", 'Before you start MARS assistant again you should close it by saying "exit"')
-    run_btn.config(state="normal")
-    refresh_btn.config(state="disabled")
+    # messagebox.showwarning("Warning", 'Before you start MARS assistant again you should close it by saying "exit"')
+    confirm = messagebox.askyesno("Confirm", 'Did you exit MARS assistant by saying "exit"?')
+    if(confirm):
+        run_btn.config(state="normal")
+        refresh_btn.config(state="disabled")
 
 def open_mars_web():
     webbrowser.open_new_tab('http://localhost:1234')
@@ -48,8 +49,8 @@ refresh_btn.config(state="disabled")
 
 learn_btn = Button(frame, text="Learn More", font=("Courier", 10, "bold"), pady=13, bg="#C6E0FF", command=open_mars_web).pack(fill="x")
 
-log_btn = Button(frame, text="View Log", font=("Courier", 10, "bold"), pady=13, bg="#C6E0FF", command=view_log_wd)
-log_btn.pack(fill="x")
+# log_btn = Button(frame, text="View Log", font=("Courier", 10, "bold"), pady=13, bg="#C6E0FF", command=view_log_wd)
+# log_btn.pack(fill="x")
 
 
 Label(frame, text='Once M.A.R.S Assistant is running, to exit the virtual assistant just say "exit" \n and she will respond to you by saying "byebye"', font=("Arial", 12)).pack(pady=5)
