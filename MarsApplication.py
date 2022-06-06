@@ -5,10 +5,10 @@ from PIL import ImageTk, Image
 import webbrowser
 
 root = Tk()
-root.title("M.A.R.S Assistant Application")
+root.title("M.A.R.S Assistant")
 root.iconbitmap('./extras/icon.ico')
 root.eval("tk::PlaceWindow . center")
-root.geometry("720x400")
+# root.geometry("720x400")
 root.resizable(False, False)
 
 def start_mars():
@@ -32,9 +32,9 @@ label_frame = Frame(root)
 label_frame.pack(fill='x')
 
 icon = ImageTk.PhotoImage(Image.open('./extras/logo.png'))
-Label(label_frame, image=icon, height=90).grid(row=0, column=0, padx=(160, 0))
+Label(label_frame, image=icon, height=90).grid(row=0, column=0, padx=(145, 0))
 
-Label(label_frame, text='Welcome to M.A.R.S Application', font=("Arial", 14, "bold")).grid(row=0, column=1)
+Label(label_frame, text='Welcome to M.A.R.S Assistant', font=("Arial", 14, "bold")).grid(row=0, column=1)
 
 
 frame = Frame(root, pady=20)
